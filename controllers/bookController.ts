@@ -15,7 +15,12 @@ import { Request, Response } from "express";
 
 
 export default class BookController {
-
+    /**
+     * Create a new Book instance
+     * @param request Request
+     * @param response Response
+     * @returns BookResponse
+     */
     static createBook = async ( request:Request, response:Response) : Promise<Response<BookResponse>> => {
         try{
             const bookRequestDto = plainToInstance(ModifyBookRequestDTO, request.body);
@@ -42,6 +47,12 @@ export default class BookController {
         }
     }
 
+    /**
+     * Returns all book instances in the database
+     * @param request Request
+     * @param response Response
+     * @returns BookResponse[]
+     */
     static listBooks = async (request:Request, response:Response) : Promise<Response<BookResponse[]>> => {
         try{
             const books: IBook[] = await BookModel.find().exec() as IBook[];
@@ -56,6 +67,14 @@ export default class BookController {
         }   
     }
 
+    /**
+     * Retrieves a book instance from the database.
+     * 
+     * The request expects a path parameter which represents a book instance unique identifier
+     * @param request Request
+     * @param response Response
+     * @returns BookResponse
+     */
     static getBook = async (request:Request, response:Response) : Promise<Response<BookResponse>> => {
        try{
            let book:IBook|null =  await BookModel.findById(request.params.id).exec() as IBook
@@ -72,6 +91,14 @@ export default class BookController {
        }
     }
 
+    /**
+     * Update a book instance in the database.
+     * 
+     * The request expects a path parameter which represents a book instance unique identifier
+     * @param request Request
+     * @param response Response
+     * @returns BookResponse
+     */
     static updateBook = async (request:Request, response:Response) : Promise<Response<BookResponse>> => {
         try{
             const bookRequestDto = plainToInstance(ModifyBookRequestDTO, request.body);
@@ -101,7 +128,14 @@ export default class BookController {
         }
     }
 
-
+    /**
+     * Deletes an existing book instance from the database
+     * 
+     * The request expects a path parameter which represents a book instance unique identifier
+     * @param request Request
+     * @param response Response
+     * @returns 
+     */
     static deleteBook = async (request:Request, response:Response) : Promise<Response<any, any>> => {
         try {
             const deletedBook = await BookModel.findByIdAndDelete(request.params.id);
