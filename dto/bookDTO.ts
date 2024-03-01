@@ -9,7 +9,7 @@ export class ModifyBookRequestDTO {
     author!: string;
 
     @IsDecimal()
-    price!: number;
+    price!: string;
 }
 
 export class BookResponse {
