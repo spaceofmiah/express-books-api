@@ -1,14 +1,18 @@
+import { bookRouter } from "./routes/bookRouter";
 import {setupDB} from "./settings/database"
-import Express from "express";
 import process, { exit } from "process";
+import Express from "express";
 import dotenv from "dotenv"
-import { Book } from "./models/Book";
 
 dotenv.config()
-const express = Express()
+const app = Express()
 
 
-express.listen(process.env.PORT, async () => {
+// use bodyParser
+app.use(Express.json())
+app.use(Express.urlencoded({ extended: true }))
+
+app.listen(process.env.PORT, async () => {
     await setupDB()
     .then(() => console.log("Database connected"))
     .catch(err => {
@@ -20,3 +24,6 @@ express.listen(process.env.PORT, async () => {
         `Server is running on port ${process.env.PORT}`
     )
 })
+
+
+app.use(bookRouter)

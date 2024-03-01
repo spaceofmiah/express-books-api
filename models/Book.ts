@@ -1,13 +1,25 @@
 import mongoose from "mongoose";
 
 
-export const BookSchema = new mongoose.Schema(
-    {
-        title: { type: String, required: true },
-        author: { type: String, required: true },
-        price: { type: mongoose.Types.Decimal128, required: true }
+export const bookSchema = new mongoose.Schema({
+    title: { 
+        type: String, 
+        required: [true, 'title is required'] 
+    },
+    author: { 
+        type: String, 
+        required: [true, 'author is required'] 
+    },
+    price: { 
+        type: String,
+        required: [true, 'price is required'] 
     }
-)
+})
 
+export interface IBook extends mongoose.Document {
+    title: String,
+    price: String,
+    author: String,
+}
 
-export const Book = mongoose.model('Book', BookSchema)
+export const BookModel: mongoose.Model<IBook> = mongoose.model<IBook>('Book', bookSchema)
